@@ -1,23 +1,23 @@
 import { Menu, Breadcrumb, Icon } from 'antd';
 import * as React from 'react';
-import './App.css';
-
-
-const SubMenu = Menu.SubMenu;
-
-const collapse = true;
+import 'antd/dist/antd.css';
+import UserTable from '../UserTable/UserTable';
 
 
 class AsideCollapse extends React.Component {
+    state = {
+      collapse: false,
+    };
+
     onCollapseChange = () => {
       this.setState({
-        collapse: !collapse,
+        collapse: !this.state.collapse,
       });
     };
 
     render() {
       return (
-        <div className={collapse ? 'ant-layout-aside ant-layout-aside-collapse' : 'ant-layout-aside'}>
+        <div className={this.state.collapse ? 'ant-layout-aside ant-layout-aside-collapse' : 'ant-layout-aside'}>
           <aside className="ant-layout-sider">
             <div className="ant-layout-logo" />
             <Menu mode="inline" theme="dark" defaultSelectedKeys={['user']}>
@@ -38,7 +38,7 @@ class AsideCollapse extends React.Component {
               </Menu.Item>
             </Menu>
             <div className="ant-aside-action" onClick={this.onCollapseChange}>
-              {collapse ? <Icon type="right" /> : <Icon type="left" />}
+              {this.state.collapse ? <Icon type="right" /> : <Icon type="left" />}
             </div>
           </aside>
           <div className="ant-layout-main">
@@ -52,9 +52,10 @@ class AsideCollapse extends React.Component {
             </div>
             <div className="ant-layout-container">
               <div className="ant-layout-content">
-                <div style={{ height: 220 }}>
-                                内容区域
-                </div>
+                {/* <div style={{ height: 220 }}> */}
+                {/* 内容区域 */}
+                {/* </div> */}
+                <UserTable />
               </div>
             </div>
             <div className="ant-layout-footer">

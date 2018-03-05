@@ -1,7 +1,7 @@
 import { Table } from 'antd';
 import reqwest from 'reqwest';
 import * as React from 'react';
-import './App.css';
+import './UserTable.css';
 
 const columns = [{
   title: 'Id',
@@ -15,7 +15,7 @@ const columns = [{
   dataIndex: 'name',
 }];
 
-class TableTest extends React.Component {
+class UserTable extends React.Component {
     state = {
       data: [],
       pagination: {},
@@ -79,4 +79,4 @@ class TableTest extends React.Component {
     }
 }
 
-export default TableTest;
+export default UserTable;
