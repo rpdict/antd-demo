@@ -1,13 +1,18 @@
 import { Menu, Breadcrumb, Icon } from 'antd';
-import * as React from 'react';
-import 'antd/dist/antd.css';
+import React from 'react';
+import './Navbar.css';
 import UserTable from '../UserTable/UserTable';
+import WrappedRegistrationForm from '../UserInput/UserInput';
 
+const SubMenu = Menu.SubMenu;
 
 class AsideCollapse extends React.Component {
-    state = {
+  constructor(...props) {
+    super(...props);
+    this.state = {
       collapse: false,
     };
+  }
 
     onCollapseChange = () => {
       this.setState({
@@ -36,6 +41,12 @@ class AsideCollapse extends React.Component {
               <Menu.Item key="folder">
                 <Icon type="folder" /><span className="nav-text">导航五</span>
               </Menu.Item>
+              <SubMenu key="sub1" title={<span><Icon type="user" />导航六</span>}>
+                <Menu.Item key="1">选项1</Menu.Item>
+                <Menu.Item key="2">选项2</Menu.Item>
+                <Menu.Item key="3">选项3</Menu.Item>
+                <Menu.Item key="4">选项4</Menu.Item>
+              </SubMenu>
             </Menu>
             <div className="ant-aside-action" onClick={this.onCollapseChange}>
               {this.state.collapse ? <Icon type="right" /> : <Icon type="left" />}
@@ -55,6 +66,7 @@ class AsideCollapse extends React.Component {
                 {/* <div style={{ height: 220 }}> */}
                 {/* 内容区域 */}
                 {/* </div> */}
+                <WrappedRegistrationForm />
                 <UserTable />
               </div>
             </div>

@@ -1,30 +1,44 @@
 import { Table } from 'antd';
 import reqwest from 'reqwest';
-import * as React from 'react';
+import React from 'react';
 import './UserTable.css';
 
-const columns = [{
-  title: 'Id',
-  dataIndex: 'id',
-  sorter: true,
-}, {
-  title: 'Email',
-  dataIndex: 'email',
-}, {
-  title: 'Name',
-  dataIndex: 'name',
-}];
+// const columns = [{
+//   title: 'Id',
+//   dataIndex: 'id',
+//   sorter: true,
+// }, {
+//   title: 'Email',
+//   dataIndex: 'email',
+// }, {
+//   title: 'Name',
+//   dataIndex: 'name',
+// }];
 
 class UserTable extends React.Component {
-    state = {
+  constructor(...props) {
+    super(...props);
+    this.state = {
       data: [],
       pagination: {},
       loading: false,
     };
+    this.columns = [{
+      title: 'Id',
+      dataIndex: 'id',
+      sorter: true,
+    }, {
+      title: 'Email',
+      dataIndex: 'email',
+    }, {
+      title: 'Name',
+      dataIndex: 'name',
+    }];
+  }
 
-    componentDidMount() {
-      this.fetch();
-    }
+  componentDidMount() {
+    this.fetch();
+  }
 
     handleTableChange = (pagination, filters, sorter) => {
       const pager = { ...this.state.pagination };
@@ -68,7 +82,7 @@ class UserTable extends React.Component {
     render() {
       return (
         <Table
-          columns={columns}
+          columns={this.columns}
           rowKey="id"
           dataSource={this.state.data}
           pagination={this.state.pagination}
