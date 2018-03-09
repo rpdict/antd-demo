@@ -12,6 +12,7 @@ class AsideCollapse extends React.Component {
     this.state = {
       collapse: false,
     };
+    // this.onSubmitForm = this.onSubmitForm.bind(this);
   }
 
     onCollapseChange = () => {
@@ -19,6 +20,12 @@ class AsideCollapse extends React.Component {
         collapse: !this.state.collapse,
       });
     };
+
+    onSubmitForm = () => {
+      this.setState({
+        reload: true,
+      });
+    }
 
     render() {
       return (
@@ -66,12 +73,12 @@ class AsideCollapse extends React.Component {
                 {/* <div style={{ height: 220 }}> */}
                 {/* 内容区域 */}
                 {/* </div> */}
-                <WrappedRegistrationForm />
+                <WrappedRegistrationForm onSubmitForm={this.onSubmitForm.bind(this)} />
                 <UserTable />
               </div>
             </div>
             <div className="ant-layout-footer">
-                        Ant Design 版权所有 © 2015 由蚂蚁金服体验技术部支持
+                  Ant Design 版权所有 © 2015 由蚂蚁金服体验技术部支持
             </div>
           </div>
         </div>

@@ -1,7 +1,6 @@
 import { Form, Input, Button } from 'antd';
 import React from 'react';
 import reqwest from 'reqwest';
-import UserTable from '../UserTable/UserTable';
 import './UserInput.css';
 
 
@@ -13,6 +12,10 @@ class RegistrationForm extends React.Component {
     this.state = {
     };
   }
+  componentDidMount() {
+    // this.props.onSubmitForm();
+  }
+
     handleSubmit = (e) => {
       e.preventDefault();
       this.props.form.validateFieldsAndScroll((err, values) => {
@@ -24,7 +27,7 @@ class RegistrationForm extends React.Component {
     }
 
     fetch = (params = {}) => {
-      console.log('params:', params);
+      // console.log('params:', params);
       reqwest({
         url: 'http://10.2.4.18:8080/demo/add',
         method: 'get',
@@ -34,8 +37,10 @@ class RegistrationForm extends React.Component {
         type: 'json',
       }).then((data) => {
         if (data.results === 'success') {
-          console.log(data);
+          this.props.onSubmitForm();
         }
+      }).catch((error) => {
+        console.log(`error: ${error}`);
       });
     }
 
@@ -72,12 +77,12 @@ class RegistrationForm extends React.Component {
             hasFeedback
           >
             {getFieldDecorator('email', {
-                    rules: [{
-                        type: 'email', message: 'The input is not valid E-mail!',
-                    }, {
-                        required: true, message: 'Please input your E-mail!',
-                    }],
-                })(<Input />)}
+                      rules: [{
+                          type: 'email', message: 'The input is not valid E-mail!',
+                      }, {
+                          required: true, message: 'Please input your E-mail!',
+                      }],
+                  })(<Input />)}
           </FormItem>
           <FormItem
             {...formItemLayout}
@@ -85,10 +90,10 @@ class RegistrationForm extends React.Component {
             hasFeedback
           >
             {getFieldDecorator('name', {
-                        rules: [{
-                            required: true, message: 'Please input your Name!',
-                        }],
-                    })(<Input />)}
+                      rules: [{
+                          required: true, message: 'Please input your Name!',
+                      }],
+                  })(<Input />)}
           </FormItem>
           <FormItem {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" size="large">提交</Button>

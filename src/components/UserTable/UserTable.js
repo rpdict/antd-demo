@@ -22,6 +22,8 @@ class UserTable extends React.Component {
       data: [],
       pagination: {},
       loading: false,
+      results: 10,
+      page: 1,
     };
     this.columns = [{
       title: 'Id',
@@ -40,11 +42,26 @@ class UserTable extends React.Component {
     this.fetch();
   }
 
+  componentWillReceiveProps() {
+    this.fetch({
+      results: this.state.results,
+      page: this.state.page,
+      sortField: this.state.sortField,
+      sortOrder: this.state.sortOrder,
+      filters: this.state.filters,
+    });
+  }
+
     handleTableChange = (pagination, filters, sorter) => {
       const pager = { ...this.state.pagination };
       pager.current = pagination.current;
       this.setState({
         pagination: pager,
+        results: pagination.pageSize,
+        page: pagination.current,
+        sortField: sorter.field,
+        sortOrder: sorter.order,
+        ...filters,
       });
       this.fetch({
         results: pagination.pageSize,
@@ -68,9 +85,7 @@ class UserTable extends React.Component {
         type: 'json',
       }).then((data) => {
         const pagination = { ...this.state.pagination };
-        // Read total count from server
         pagination.total = data.results.totalElements;
-        // pagination.total = 200;
         this.setState({
           loading: false,
           data: data.results.content,
@@ -81,14 +96,16 @@ class UserTable extends React.Component {
 
     render() {
       return (
-        <Table
-          columns={this.columns}
-          rowKey="id"
-          dataSource={this.state.data}
-          pagination={this.state.pagination}
-          loading={this.state.loading}
-          onChange={this.handleTableChange}
-        />
+        <div>
+          <Table
+            columns={this.columns}
+            rowKey="id"
+            dataSource={this.state.data}
+            pagination={this.state.pagination}
+            loading={this.state.loading}
+            onChange={this.handleTableChange}
+          />
+        </div>
       );
     }
 }
