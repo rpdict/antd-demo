@@ -29,12 +29,15 @@ class UserTable extends React.Component {
       title: 'Id',
       dataIndex: 'id',
       sorter: true,
+      width: '10%',
     }, {
       title: 'Email',
       dataIndex: 'email',
+      width: '20%',
     }, {
       title: 'Name',
       dataIndex: 'name',
+      width: '20%',
     }];
   }
 
