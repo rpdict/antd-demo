@@ -3,18 +3,6 @@ import reqwest from 'reqwest';
 import React from 'react';
 import './UserTable.css';
 
-// const columns = [{
-//   title: 'Id',
-//   dataIndex: 'id',
-//   sorter: true,
-// }, {
-//   title: 'Email',
-//   dataIndex: 'email',
-// }, {
-//   title: 'Name',
-//   dataIndex: 'name',
-// }];
-
 class UserTable extends React.Component {
   constructor(...props) {
     super(...props);
