@@ -1,15 +1,16 @@
 import { Menu, Breadcrumb, Icon, Layout } from 'antd';
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Route, NavLink, withRouter } from 'react-router-dom';
+import createHistory from 'history/createBrowserHistory';
 import './Navbar.css';
 import UserTable from '../UserTable/UserTable';
 import WrappedRegistrationForm from '../UserInput/UserInput';
 
+const history = createHistory();
 const {
   Header, Footer, Sider, Content,
 } = Layout;
-
-
 const SubMenu = Menu.SubMenu;
 
 class AsideCollapse extends React.Component {
@@ -18,12 +19,17 @@ class AsideCollapse extends React.Component {
     this.state = {
       collapse: false,
       mode: 'inline',
+      current: history.location.pathname,
     };
     // this.onSubmitForm = this.onSubmitForm.bind(this);
   }
 
+    static propTypes = {
+      location: PropTypes.object.isRequired,
+    }
+
     onCollapse = (collapsed) => {
-      console.log(collapsed);
+      // console.log(collapsed);
       this.setState({
         collapsed,
         mode: collapsed ? 'vertical' : 'inline',
@@ -36,62 +42,84 @@ class AsideCollapse extends React.Component {
       });
     }
 
+    handleClick = (e) => {
+      console.log('click ', e);
+      console.log(this.state.current);
+      this.setState({
+        current: e.key,
+      });
+      // history.push(e.key);
+      // history.location.pathname = this.state.current;
+      // history.go(-1);
+    }
+
     render() {
+      const { location } = this.props;
       return (
-        <Router>
-          <Layout>
-            <Sider
-              collapsible
-              collapsed={this.state.collapsed}
-              onCollapse={this.onCollapse}
+        <Layout>
+          <Sider
+            collapsible
+            collapsed={this.state.collapsed}
+            onCollapse={this.onCollapse}
+          >
+            <div className="logo" />
+            <Menu
+              theme="dark"
+              mode={this.state.mode}
+              onClick={this.handleClick}
+              defaultOpenKeys={['sub1']}
+              selectedKeys={[location.pathname]}
             >
-              <div className="logo" />
-              <Menu theme="dark" mode={this.state.mode} defaultSelectedKeys={['6']}>
-                <SubMenu
-                  key="sub1"
-                  title={<span><Icon type="user" /><span className="nav-text">User</span></span>}
-                >
-                  <Menu.Item key="1"><Link to="/about">Add User</Link></Menu.Item>
-                  <Menu.Item key="2"><Link to="/inbox">User Table</Link></Menu.Item>
-                  <Menu.Item key="3">Alex</Menu.Item>
-                </SubMenu>
-                <SubMenu
-                  key="sub2"
-                  title={<span><Icon type="team" /><span className="nav-text">Team</span></span>}
-                >
-                  <Menu.Item key="4">Team 1</Menu.Item>
-                  <Menu.Item key="5">Team 2</Menu.Item>
-                </SubMenu>
-                <Menu.Item key="6">
-                  <span>
-                    <Icon type="file" />
-                    <span className="nav-text">File</span>
-                  </span>
-                </Menu.Item>
-              </Menu>
-            </Sider>
-            <Layout>
-              <Header style={{ background: '#fff', padding: 0 }} />
-              <Content style={{ margin: '0 16px' }}>
-                <Breadcrumb style={{ margin: '12px 0' }}>
-                  <Breadcrumb.Item>User</Breadcrumb.Item>
-                  <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                </Breadcrumb>
-                <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                  <Route path="/about" component={WrappedRegistrationForm} onSubmitForm={this.onSubmitForm.bind(this)} />
-                  {/* <WrappedRegistrationForm onSubmitForm={this.onSubmitForm.bind(this)} /> */}
-                  <Route path="/inbox" component={UserTable} />
-                  {/* <UserTable /> */}
-                </div>
-              </Content>
-              <Footer style={{ textAlign: 'center' }}>
+              <SubMenu
+                key="sub1"
+                title={<span><Icon type="user" /><span className="nav-text">User</span></span>}
+              >
+                <Menu.Item key="/about"><NavLink to="/about">Add User</NavLink></Menu.Item>
+                <Menu.Item key="/inbox"><NavLink to="/inbox">User Table</NavLink></Menu.Item>
+                <Menu.Item key="3">Alex</Menu.Item>
+              </SubMenu>
+              <SubMenu
+                key="sub2"
+                title={<span><Icon type="team" /><span className="nav-text">Team</span></span>}
+              >
+                <Menu.Item key="4">Team 1</Menu.Item>
+                <Menu.Item key="5">Team 2</Menu.Item>
+              </SubMenu>
+              <Menu.Item key="6">
+                <span>
+                  <Icon type="file" />
+                  <span className="nav-text">File</span>
+                </span>
+              </Menu.Item>
+            </Menu>
+          </Sider>
+          <Layout>
+            <Header style={{ background: '#fff', padding: 0 }} />
+            <Content style={{ margin: '0 16px' }}>
+              <Breadcrumb style={{ margin: '12px 0' }}>
+                <Breadcrumb.Item>User</Breadcrumb.Item>
+                <Breadcrumb.Item>Bill</Breadcrumb.Item>
+              </Breadcrumb>
+              <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+                <Route
+                  path="/about"
+                  render={() => (
+                    <WrappedRegistrationForm onSubmitForm={this.onSubmitForm.bind(this)} />
+                  )}
+                />
+                <Route path="/about" component={UserTable} />
+                {/* <WrappedRegistrationForm onSubmitForm={this.onSubmitForm.bind(this)} /> */}
+                <Route path="/inbox" component={UserTable} />
+                {/* <UserTable /> */}
+              </div>
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>
                 Ant Design ©2016 Created by Ant UED
-              </Footer>
-            </Layout>
+            </Footer>
           </Layout>
-        </Router>
+        </Layout>
       );
     }
 }
 
-export default AsideCollapse;
+export default withRouter(AsideCollapse);

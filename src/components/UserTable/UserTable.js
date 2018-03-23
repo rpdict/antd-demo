@@ -64,7 +64,7 @@ class UserTable extends React.Component {
     }
 
     fetch = (params = {}) => {
-      console.log('params:', params);
+      // console.log('params:', params);
       this.setState({ loading: true });
       reqwest({
         url: 'http://10.2.4.18:8080/demo/all',
