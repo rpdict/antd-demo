@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { Table } from 'antd';
 import reqwest from 'reqwest';
 import React from 'react';
@@ -11,22 +12,24 @@ class UserTable extends React.Component {
       pagination: {},
       loading: false,
       results: 10,
-      page: 1,
+      page: 0,
     };
-    this.columns = [{
-      title: 'Id',
-      dataIndex: 'id',
-      sorter: true,
-      width: '10%',
-    }, {
-      title: 'Email',
-      dataIndex: 'email',
-      width: '20%',
-    }, {
-      title: 'Name',
-      dataIndex: 'name',
-      width: '20%',
-    }];
+    this.columns = [
+      {
+        title: 'Id',
+        dataIndex: 'id',
+        sorter: true,
+        width: '10%',
+      },
+      {
+        title: 'Email',
+        dataIndex: 'email',
+        width: '20%',
+      }, {
+        title: 'Name',
+        dataIndex: 'name',
+        width: '20%',
+      }];
   }
 
   componentDidMount() {
@@ -49,14 +52,14 @@ class UserTable extends React.Component {
       this.setState({
         pagination: pager,
         results: pagination.pageSize,
-        page: pagination.current,
+        page: pagination.current - 1,
         sortField: sorter.field,
         sortOrder: sorter.order,
         ...filters,
       });
       this.fetch({
         results: pagination.pageSize,
-        page: pagination.current,
+        page: pagination.current - 1,
         sortField: sorter.field,
         sortOrder: sorter.order,
         ...filters,
@@ -64,22 +67,21 @@ class UserTable extends React.Component {
     }
 
     fetch = (params = {}) => {
-      // console.log('params:', params);
       this.setState({ loading: true });
       reqwest({
-        url: 'http://10.2.4.18:8080/demo/all',
+        url: 'http://10.2.4.18:8080/api/users',
         method: 'get',
         data: {
-          results: 10,
+          size: 10,
           ...params,
         },
         type: 'json',
       }).then((data) => {
         const pagination = { ...this.state.pagination };
-        pagination.total = data.results.totalElements;
+        pagination.total = data.page.totalElements;
         this.setState({
           loading: false,
-          data: data.results.content,
+          data: data._embedded.users,
           pagination,
         });
       });
@@ -90,7 +92,7 @@ class UserTable extends React.Component {
         <div>
           <Table
             columns={this.columns}
-            rowKey="id"
+            rowKey={record => record.id}
             dataSource={this.state.data}
             pagination={this.state.pagination}
             loading={this.state.loading}
