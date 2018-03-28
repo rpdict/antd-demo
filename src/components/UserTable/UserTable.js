@@ -9,9 +9,10 @@ class UserTable extends React.Component {
     super(...props);
     this.state = {
       data: [],
-      pagination: {},
+      pagination: {
+        pageSize: 10,
+      },
       loading: false,
-      results: 10,
       page: 0,
     };
     this.columns = [
@@ -38,10 +39,9 @@ class UserTable extends React.Component {
 
   componentWillReceiveProps() {
     this.fetch({
-      results: this.state.results,
+      size: this.state.size,
       page: this.state.page,
-      sortField: this.state.sortField,
-      sortOrder: this.state.sortOrder,
+      sort: this.state.sort,
       filters: this.state.filters,
     });
   }
@@ -51,20 +51,18 @@ class UserTable extends React.Component {
       pager.current = pagination.current;
       this.setState({
         pagination: pager,
-        results: pagination.pageSize,
+        size: pagination.pageSize,
         page: pagination.current - 1,
-        sortField: sorter.field,
-        sortOrder: sorter.order,
+        sort: `${sorter.field},desc`,
         ...filters,
       });
       this.fetch({
-        results: pagination.pageSize,
+        size: pagination.pageSize,
         page: pagination.current - 1,
-        sortField: sorter.field,
-        sortOrder: sorter.order,
+        sort: `${sorter.field},desc`,
         ...filters,
       });
-    }
+    };
 
     fetch = (params = {}) => {
       this.setState({ loading: true });
@@ -72,7 +70,7 @@ class UserTable extends React.Component {
         url: 'http://10.2.4.18:8080/api/users',
         method: 'get',
         data: {
-          size: 10,
+          size: this.state.pagination.pageSize,
           ...params,
         },
         type: 'json',
@@ -85,7 +83,7 @@ class UserTable extends React.Component {
           pagination,
         });
       });
-    }
+    };
 
     render() {
       return (
