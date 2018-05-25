@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './index.css';
 import AsideCollapse from './components/Navbar/Navbar';
+import Login from './components/login/Login';
 // import UserTable from './components/UserTable/UserTable';
 // import WrappedRegistrationForm from './components/UserInput/UserInput';
 import registerServiceWorker from './registerServiceWorker';
@@ -10,12 +11,10 @@ import registerServiceWorker from './registerServiceWorker';
 ReactDOM.render(
   (
     <Router>
-      <AsideCollapse />
-      {/* <div> */}
-      {/* <Route exact path="/" component={AsideCollapse} /> */}
-      {/* <Route path="/inbox" component={UserTable} /> */}
-      {/* <Route path="/about" component={WrappedRegistrationForm} /> */}
-      {/* </div> */}
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/api" component={AsideCollapse} />
+      </Switch>
     </Router>
   ), document.getElementById('root'),
 );

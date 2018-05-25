@@ -74,8 +74,8 @@ class AsideCollapse extends React.Component {
                 key="sub1"
                 title={<span><Icon type="user" /><span className="nav-text">User</span></span>}
               >
-                <Menu.Item key="/about"><NavLink to="/about">Add User</NavLink></Menu.Item>
-                <Menu.Item key="/inbox"><NavLink to="/inbox">User Table</NavLink></Menu.Item>
+                <Menu.Item key="/api/about"><NavLink to="/api/about">Add User</NavLink></Menu.Item>
+                <Menu.Item key="/api/inbox"><NavLink to="/api/inbox">User Table</NavLink></Menu.Item>
                 <Menu.Item key="3">Alex</Menu.Item>
               </SubMenu>
               <SubMenu
@@ -102,14 +102,14 @@ class AsideCollapse extends React.Component {
               </Breadcrumb>
               <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                 <Route
-                  path="/about"
+                  path="/api/about"
                   render={() => (
                     <WrappedRegistrationForm onSubmitForm={this.onSubmitForm.bind(this)} />
                   )}
                 />
-                <Route path="/about" component={UserTable} />
+                <Route path="/api/about" component={UserTable} />
                 {/* <WrappedRegistrationForm onSubmitForm={this.onSubmitForm.bind(this)} /> */}
-                <Route path="/inbox" component={UserTable} />
+                <Route path="/api/inbox" component={UserTable} />
                 {/* <UserTable /> */}
               </div>
             </Content>
