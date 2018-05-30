@@ -1,5 +1,6 @@
 import { Form, Icon, Input, Button, Checkbox, Layout } from 'antd';
 import React from 'react';
+import reqwest from 'reqwest';
 import './Login.css';
 
 const Content = Layout;
@@ -12,9 +13,24 @@ class NormalLoginForm extends React.Component {
       this.props.form.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values);
+          this.fetch(values);
         }
       });
     }
+
+    fetch = (params = {}) => {
+      reqwest({
+        url: 'http://10.2.4.18:8080/login',
+        method: 'post',
+        data: {
+          ...params,
+        },
+        type: 'json',
+      }).then((data) => {
+        console.log(data);
+      });
+    };
+
     render() {
       const { getFieldDecorator } = this.props.form;
       return (
