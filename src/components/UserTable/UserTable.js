@@ -67,7 +67,7 @@ class UserTable extends React.Component {
     fetch = (params = {}) => {
       this.setState({ loading: true });
       reqwest({
-        url: 'http://10.2.4.18:8080/api/users',
+        url: 'http://localhost:8080/api/users',
         method: 'get',
         data: {
           size: this.state.pagination.pageSize,

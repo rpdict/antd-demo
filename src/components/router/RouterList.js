@@ -8,27 +8,12 @@ import {
 import Login from '../../components/login/Login';
 import AsideCollapse from '../../components/Navbar/Navbar';
 
-const fakeAuth = {
-  isAuthenticated: false,
-  authenticate(cb) {
-    this.isAuthenticated = true;
-    setTimeout(cb, 100); // fake async
-  },
-  signout(cb) {
-    this.isAuthenticated = false;
-    setTimeout(cb, 100);
-  },
-};
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-            (fakeAuth.isAuthenticated ? (
-              <Component {...props} />
-            ) : (
-              <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-            ))
+            (this.props.state.isAuthenticated ? (<Component {...props} />) : (<Redirect to={{ pathname: '/login', state: { from: props.location } }} />))
         }
   />
 );

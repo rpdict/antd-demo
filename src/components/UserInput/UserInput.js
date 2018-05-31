@@ -3,7 +3,6 @@ import React from 'react';
 import reqwest from 'reqwest';
 import './UserInput.css';
 
-
 const FormItem = Form.Item;
 
 class RegistrationForm extends React.Component {
@@ -24,12 +23,12 @@ class RegistrationForm extends React.Component {
           this.fetch(values);
         }
       });
-    }
+    };
 
     fetch = (params = {}) => {
       // console.log('params:', params);
       reqwest({
-        url: 'http://10.2.4.18:8080/demo/add',
+        url: 'http://localhost:8080/demo/add',
         method: 'get',
         data: {
           ...params,
