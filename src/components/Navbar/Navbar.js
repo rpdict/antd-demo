@@ -1,7 +1,7 @@
 import { Menu, Breadcrumb, Icon, Layout } from 'antd';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route, NavLink, withRouter } from 'react-router-dom';
+import { Route, Link, withRouter } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import './Navbar.css';
 import UserTable from '../UserTable/UserTable';
@@ -74,8 +74,8 @@ class AsideCollapse extends React.Component {
                 key="sub1"
                 title={<span><Icon type="user" /><span className="nav-text">User</span></span>}
               >
-                <Menu.Item key="/api/about"><NavLink to="/api/about">Add User</NavLink></Menu.Item>
-                <Menu.Item key="/api/inbox"><NavLink to="/api/inbox">User Table</NavLink></Menu.Item>
+                <Menu.Item key="/api/about"><Link to="/api/about">Add User</Link></Menu.Item>
+                <Menu.Item key="/api/inbox"><Link to="/api/inbox">User Table</Link></Menu.Item>
                 <Menu.Item key="3">Alex</Menu.Item>
               </SubMenu>
               <SubMenu
