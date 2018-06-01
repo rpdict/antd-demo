@@ -1,6 +1,7 @@
 import { Form, Icon, Input, Button, Checkbox, Layout } from 'antd';
 import React from 'react';
 import reqwest from 'reqwest';
+import { Redirect } from 'react-router-dom';
 import './Login.css';
 
 const Content = Layout;
@@ -19,48 +20,10 @@ const fakeAuth = {
   },
 };
 
-const AuthButton = withRouter(({ history }) =>
-  (fakeAuth.isAuthenticated ? (
-    <p>
-                Welcome!{' '}
-      <button
-        onClick={() => {
-                        fakeAuth.signout(() => history.push('/'));
-                    }}
-      >
-                    Sign out
-      </button>
-    </p>
-  ) : (
-    <p>You are not logged in.</p>
-  )));
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-            (fakeAuth.isAuthenticated ? (
-              <Component {...props} />
-            ) : (
-              <Redirect
-                to={{
-                        pathname: '/login',
-                        state: { from: props.location },
-                    }}
-              />
-            ))
-        }
-  />
-);
-
 class NormalLoginForm extends React.Component {
-  constructor(...props) {
-    super(...props);
-    this.state = {
+    state = {
       redirectToReferrer: false,
     };
-  }
-
 
     login = () => {
       fakeAuth.authenticate(() => {
@@ -79,26 +42,29 @@ class NormalLoginForm extends React.Component {
     };
 
     fetch = (params = {}) => {
-      reqwest({
-        url: 'http://localhost:8080/login',
-        method: 'post',
-        data: {
-          ...params,
-        },
-        type: 'json',
-      }).then((data) => {
-        console.log(data);
-        if (data.result === 'success') {
-          // this.state.isAuthenticated = true;
-          // this.authenticate();
-        }
-      });
+      this.login();
+      // reqwest({
+      //   url: 'http://localhost:8080/login',
+      //   method: 'post',
+      //   data: {
+      //     ...params,
+      //   },
+      //   type: 'json',
+      // }).then((data) => {
+      //   console.log(data);
+      //   if (data.result === 'success') {
+      //     // this.state.isAuthenticated = true;
+      //     this.login();
+      //   }
+      // });
     };
 
     render() {
       const { getFieldDecorator } = this.props.form;
+      const { from } = this.props.location.state || { from: { pathname: '/' } };
+      const { redirectToReferrer } = this.state;
 
-      if (this.state.redirectToReferrer) {
+      if (redirectToReferrer) {
         return <Redirect to={from} />;
       }
       return (

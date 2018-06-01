@@ -10,16 +10,19 @@ import AsideCollapse from '../../components/Navbar/Navbar';
 
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
+
   <Route
     {...rest}
     render={props =>
-            (this.props.state.isAuthenticated ? (<Component {...props} />) : (<Redirect to={{ pathname: '/login', state: { from: props.location } }} />))
+            (this.props.isAuthenticated ? (<Component {...props} />) : (<Redirect to={{ pathname: '/login', state: { from: props.location } }} />))
         }
   />
 );
 
 class RouterList extends React.Component {
   render() {
+    console.log(this.props);
+
     return (
       <Router>
         <Switch>
