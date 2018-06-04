@@ -8,26 +8,11 @@ const Content = Layout;
 
 const FormItem = Form.Item;
 
-const fakeAuth = {
-  isAuthenticated: false,
-  authenticate(cb) {
-    this.isAuthenticated = true;
-    setTimeout(cb, 100); // fake async
-  },
-  signout(cb) {
-    this.isAuthenticated = false;
-    setTimeout(cb, 100);
-  },
-};
 
 class NormalLoginForm extends React.Component {
-    state = {
-      redirectToReferrer: false,
-    };
-
     login = () => {
-      fakeAuth.authenticate(() => {
-        this.setState({ redirectToReferrer: true });
+      this.props.authenticate(() => {
+        this.props.setState({ redirectToReferrer: true });
       });
     };
 
@@ -60,13 +45,9 @@ class NormalLoginForm extends React.Component {
     };
 
     render() {
+      console.log(this.props);
       const { getFieldDecorator } = this.props.form;
-      const { from } = this.props.location.state || { from: { pathname: '/' } };
-      const { redirectToReferrer } = this.state;
 
-      if (redirectToReferrer) {
-        return <Redirect to={from} />;
-      }
       return (
         <Layout>
           <Content>
