@@ -58,17 +58,17 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-            (fakeAuth.isAuthenticated ? (
-              <Component {...props} />
-            ) : (
-              <Redirect
-                to={{
-                        pathname: '/login',
-                        state: { from: props.location },
-                    }}
-              />
-            ))
-        }
+      (fakeAuth.isAuthenticated ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/login',
+            state: { from: props.location },
+          }}
+        />
+      ))
+    }
   />
 );
 
@@ -109,7 +109,8 @@ class Login extends React.Component {
       }).then((data) => {
         console.log(data);
         if (data.result === 'success') {
-          // this.state.isAuthenticated = true;
+          console.log(data.data);
+          localStorage.setItem('token', data.data);
           this.login();
         }
       });
@@ -118,7 +119,7 @@ class Login extends React.Component {
     render() {
       const { getFieldDecorator } = this.props.form;
 
-      const { from } = this.props.location.state || { from: { pathname: '/' } };
+      const { from } = this.props.location.state || { from: { pathname: '/api' } };
       const { redirectToReferrer } = this.state;
 
       if (redirectToReferrer) {
@@ -131,23 +132,23 @@ class Login extends React.Component {
             <Form onSubmit={this.handleSubmit} className="login-form">
               <FormItem>
                 {getFieldDecorator('userName', {
-                            rules: [{ required: true, message: 'Please input your username!' }],
-                        })(<Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />)}
+                  rules: [{ required: true, message: 'Please input your username!' }],
+                })(<Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />)}
               </FormItem>
               <FormItem>
                 {getFieldDecorator('password', {
-                            rules: [{ required: true, message: 'Please input your Password!' }],
-                        })(<Input
-                          prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
-                          type="password"
-                          placeholder="Password"
-                        />)}
+                  rules: [{ required: true, message: 'Please input your Password!' }],
+                })(<Input
+                  prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
+                  type="password"
+                  placeholder="Password"
+                />)}
               </FormItem>
               <FormItem>
                 {getFieldDecorator('remember', {
-                            valuePropName: 'checked',
-                            initialValue: true,
-                        })(<Checkbox>Remember me</Checkbox>)}
+                  valuePropName: 'checked',
+                  initialValue: true,
+                })(<Checkbox>Remember me</Checkbox>)}
                 <a className="login-form-forgot">Forgot password</a>
                 <Button type="primary" htmlType="submit" className="login-form-button">
                             Log in
