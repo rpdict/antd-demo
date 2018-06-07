@@ -1,6 +1,6 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle,no-undef */
 import { Table } from 'antd';
-import reqwest from 'reqwest';
+import * as axios from 'axios';
 import React from 'react';
 import './UserTable.css';
 
@@ -66,20 +66,22 @@ class UserTable extends React.Component {
 
     fetch = (params = {}) => {
       this.setState({ loading: true });
-      reqwest({
-        url: 'http://localhost:8080/api/users',
+      axios({
         method: 'get',
+        url: 'http://localhost:8080/api/users',
         data: {
           size: this.state.pagination.pageSize,
           ...params,
         },
-        type: 'json',
-      }).then((data) => {
+        headers: {
+          authorization: localStorage.getItem('token'),
+        },
+      }).then((response) => {
         const pagination = { ...this.state.pagination };
-        pagination.total = data.page.totalElements;
+        pagination.total = response.data.page.totalElements;
         this.setState({
           loading: false,
-          data: data._embedded.users,
+          data: response.data._embedded.users,
           pagination,
         });
       });

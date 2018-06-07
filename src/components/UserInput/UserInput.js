@@ -1,6 +1,7 @@
+/* eslint-disable no-undef */
 import { Form, Input, Button } from 'antd';
 import React from 'react';
-import reqwest from 'reqwest';
+import * as axios from 'axios';
 import './UserInput.css';
 
 const FormItem = Form.Item;
@@ -26,22 +27,20 @@ class RegistrationForm extends React.Component {
     };
 
     fetch = (params = {}) => {
-      // console.log('params:', params);
-      reqwest({
+      axios({
+        method: 'post',
         url: 'http://localhost:8080/demo/add',
-        method: 'get',
         data: {
           ...params,
         },
-        type: 'json',
-      }).then((data) => {
-        if (data.results === 'success') {
+      }).then((response) => {
+        if (response.data.results === 'success') {
           this.props.onSubmitForm();
         }
       }).catch((error) => {
         console.log(`error: ${error}`);
       });
-    }
+    };
 
     render() {
       const { getFieldDecorator } = this.props.form;

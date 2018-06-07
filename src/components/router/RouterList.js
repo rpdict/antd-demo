@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import {
   Form,
@@ -13,7 +14,7 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
-import reqwest from 'reqwest';
+import * as axios from 'axios';
 import AsideCollapse from '../../components/Navbar/Navbar';
 import '../login/Login.css';
 
@@ -98,19 +99,16 @@ class Login extends React.Component {
     };
 
     fetch = (params = {}) => {
-      // this.login();
-      reqwest({
-        url: 'http://localhost:8080/login',
+      axios({
         method: 'post',
+        url: 'http://localhost:8080/login',
         data: {
           ...params,
         },
-        type: 'json',
-      }).then((data) => {
-        console.log(data);
-        if (data.result === 'success') {
-          console.log(data.data);
-          localStorage.setItem('token', data.data);
+      }).then((response) => {
+        console.log(response);
+        if (response.data.result === 'success') {
+          localStorage.setItem('token', response.data.data);
           this.login();
         }
       });
@@ -131,7 +129,7 @@ class Login extends React.Component {
           <Content>
             <Form onSubmit={this.handleSubmit} className="login-form">
               <FormItem>
-                {getFieldDecorator('userName', {
+                {getFieldDecorator('name', {
                   rules: [{ required: true, message: 'Please input your username!' }],
                 })(<Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />)}
               </FormItem>
