@@ -2,9 +2,9 @@
 import { Table } from 'antd';
 import * as axios from 'axios';
 import React from 'react';
-import './UserTable.css';
+import './BlogTable.css';
 
-class UserTable extends React.Component {
+class BlogTable extends React.Component {
   constructor(...props) {
     super(...props);
     this.state = {
@@ -23,12 +23,12 @@ class UserTable extends React.Component {
         width: '10%',
       },
       {
-        title: 'Email',
-        dataIndex: 'email',
+        title: 'Title',
+        dataIndex: 'title',
         width: '20%',
       }, {
-        title: 'Name',
-        dataIndex: 'name',
+        title: 'Content',
+        dataIndex: 'content',
         width: '20%',
       }];
   }
@@ -68,7 +68,7 @@ class UserTable extends React.Component {
       this.setState({ loading: true });
       axios({
         method: 'get',
-        url: 'http://localhost:8080/api/users',
+        url: 'http://localhost:8080/api/blogs',
         data: {
           size: this.state.pagination.pageSize,
           ...params,
@@ -77,11 +77,12 @@ class UserTable extends React.Component {
           authorization: sessionStorage.getItem('token'),
         },
       }).then((response) => {
+        // console.log(response);
         const pagination = { ...this.state.pagination };
         pagination.total = response.data.page.totalElements;
         this.setState({
           loading: false,
-          data: response.data._embedded.users,
+          data: response.data._embedded.blogs,
           pagination,
         });
       });
@@ -103,4 +104,4 @@ class UserTable extends React.Component {
     }
 }
 
-export default UserTable;
+export default BlogTable;

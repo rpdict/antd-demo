@@ -1,11 +1,16 @@
+/*
+eslint-disable prefer-destructuring,
+react/sort-comp,react/no-unused-state,
+jsx-a11y/anchor-is-valid,
+ */
 import { Menu, Breadcrumb, Icon, Layout } from 'antd';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Link, withRouter } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import './Navbar.css';
-import UserTable from '../UserTable/UserTable';
-import WrappedRegistrationForm from '../UserInput/UserInput';
+import BlogTable from '../BlogTable/BlogTable';
+import AuthForm from '../BlogInput/BlogInput';
 
 const history = createHistory();
 const {
@@ -74,7 +79,7 @@ class AsideCollapse extends React.Component {
                 key="sub1"
                 title={<span><Icon type="user" /><span className="nav-text">User</span></span>}
               >
-                <Menu.Item key="/api/about"><Link to="/api/about">Add User</Link></Menu.Item>
+                <Menu.Item key="/api/addBlog"><Link to="/api/addBlog">Add Blog</Link></Menu.Item>
                 <Menu.Item key="/api/inbox"><Link to="/api/inbox">User Table</Link></Menu.Item>
                 <Menu.Item key="3">Alex</Menu.Item>
               </SubMenu>
@@ -102,14 +107,14 @@ class AsideCollapse extends React.Component {
               </Breadcrumb>
               <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                 <Route
-                  path="/api/about"
+                  path="/api/addBlog"
                   render={() => (
-                    <WrappedRegistrationForm onSubmitForm={this.onSubmitForm.bind(this)} />
+                    <AuthForm onSubmitForm={this.onSubmitForm.bind(this)} />
                   )}
                 />
-                <Route path="/api/about" component={UserTable} />
-                {/* <WrappedRegistrationForm onSubmitForm={this.onSubmitForm.bind(this)} /> */}
-                <Route path="/api/inbox" component={UserTable} />
+                <Route path="/api/addBlog" component={BlogTable} />
+                {/* <AuthForm onSubmitForm={this.onSubmitForm.bind(this)} /> */}
+                <Route path="/api/inbox" component={BlogTable} />
                 {/* <UserTable /> */}
               </div>
             </Content>

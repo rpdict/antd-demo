@@ -2,7 +2,7 @@
 import { Form, Input, Button } from 'antd';
 import React from 'react';
 import * as axios from 'axios';
-import './UserInput.css';
+import './BlogInput.css';
 
 const FormItem = Form.Item;
 
@@ -29,12 +29,16 @@ class RegistrationForm extends React.Component {
     fetch = (params = {}) => {
       axios({
         method: 'post',
-        url: 'http://localhost:8080/demo/add',
+        url: 'http://localhost:8080/api/blogs',
         data: {
           ...params,
         },
+        headers: {
+          authorization: sessionStorage.getItem('token'),
+        },
       }).then((response) => {
-        if (response.data.results === 'success') {
+        console.log(response);
+        if (response.status === 201) {
           this.props.onSubmitForm();
         }
       }).catch((error) => {
@@ -71,25 +75,23 @@ class RegistrationForm extends React.Component {
         <Form layout="inline" onSubmit={this.handleSubmit}>
           <FormItem
             {...formItemLayout}
-            label="Email"
+            label="Title"
             hasFeedback
           >
-            {getFieldDecorator('email', {
+            {getFieldDecorator('title', {
                       rules: [{
-                          type: 'email', message: 'The input is not valid E-mail!',
-                      }, {
-                          required: true, message: 'Please input your E-mail!',
+                          required: true, message: 'Please input your Title!',
                       }],
                   })(<Input />)}
           </FormItem>
           <FormItem
             {...formItemLayout}
-            label="Name"
+            label="Content"
             hasFeedback
           >
-            {getFieldDecorator('name', {
+            {getFieldDecorator('content', {
                       rules: [{
-                          required: true, message: 'Please input your Name!',
+                          required: true, message: 'Please input your Content!',
                       }],
                   })(<Input />)}
           </FormItem>
@@ -101,6 +103,6 @@ class RegistrationForm extends React.Component {
     }
 }
 
-const WrappedRegistrationForm = Form.create()(RegistrationForm);
+const AuthForm = Form.create()(RegistrationForm);
 
-export default WrappedRegistrationForm;
+export default AuthForm;
