@@ -74,7 +74,7 @@ class UserTable extends React.Component {
           ...params,
         },
         headers: {
-          authorization: localStorage.getItem('token'),
+          authorization: sessionStorage.getItem('token'),
         },
       }).then((response) => {
         const pagination = { ...this.state.pagination };

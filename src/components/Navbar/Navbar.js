@@ -26,7 +26,7 @@ class AsideCollapse extends React.Component {
 
     static propTypes = {
       location: PropTypes.object.isRequired,
-    }
+    };
 
     onCollapse = (collapsed) => {
       // console.log(collapsed);
@@ -34,13 +34,13 @@ class AsideCollapse extends React.Component {
         collapsed,
         mode: collapsed ? 'vertical' : 'inline',
       });
-    }
+    };
 
     onSubmitForm = () => {
       this.setState({
         reload: true,
       });
-    }
+    };
 
     handleClick = (e) => {
       console.log('click ', e);
@@ -51,7 +51,7 @@ class AsideCollapse extends React.Component {
       // history.push(e.key);
       // history.location.pathname = this.state.current;
       // history.go(-1);
-    }
+    };
 
     render() {
       const { location } = this.props;
